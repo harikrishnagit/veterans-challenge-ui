@@ -2,23 +2,17 @@
 
 ## Requirements
 
-For development, you will need Git and Node.js installed on your environement.
+For development, you will only need Node.js installed on your environement.
 
 ### Git 
 
-- Install Git
+- Install [Git](https://git-scm.com) based on the type of operating system as mentioned in these [instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 ### Node
 
-[Node](http://nodejs.org/) is really easy to install & now include [NPM](https://npmjs.org/).
+[Node](http://nodejs.org/) is easy to install & now include [NPM](https://npmjs.org/).
 You should be able to run the following command after the installation procedure
-below.
-
-    $ node --version
-    v0.10.24
-
-    $ npm --version
-    1.3.21
+below. At a minimum install node version 12 
 
 #### Node installation on OS X
 
@@ -47,15 +41,13 @@ Also, be sure to have `git` available in your PATH, `npm` might need it.
 
 ---
 
-## Install
+## Clone the project
 
-    $ git clone https://github.com/trillion-repos/vachallenge.git
-    $ npm install
+    $ git clone https://github.com/harikrishnagit/veterans-challenge-ui.git
 
 ### Configure app
 
 Configuration instructions shall be added later
-
 
 ## Compile and Run
 
@@ -73,3 +65,6 @@ A common way to pull down code from repo is by doing
     $ git pull origin master
 ```
 
+### Create your specific branch to make with your changes or work with your stories
+    $ git checkout -b "<your-branch-name>"
+    
