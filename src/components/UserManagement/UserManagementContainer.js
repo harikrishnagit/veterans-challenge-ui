@@ -2,8 +2,9 @@ import React from 'react';
 import CommonModal from '../common/modal/CommonModal'
 import OIPTable from '../common/tables/OIPTable'
 import OIPCard from '../common/cards/OIPCard'
-import { Button, Form, TextArea, Input, Icon, Radio, Header, Container, Message } from 'semantic-ui-react';
+import { Button, Form, Icon, Header, Container, Message } from 'semantic-ui-react';
 import _ from 'lodash';
+import { post } from "axios";
 
 export class UserManagementContainer extends React.Component {
     constructor(props) {
@@ -73,6 +74,29 @@ export class UserManagementContainer extends React.Component {
             direction: direction === "ascending" ? "descending" : "ascending"
         });
     };
+    restAPIPost = () => {
+        // template code for using axios for REST API communication
+        const uploadURL = "http://localhost:10001/api/v1/postDoc"; // this url should be replaced by sam.gov url
+        console.log(uploadURL);
+        const formData = new FormData();
+        formData.append("apikey", "<copy api key supplied");
+        formData.append("businessname", "<copy business name here for searching SAM.gov");
+
+        const config = {
+            headers: {
+                "Content-type": "multipart/form-data",
+                "Access-Control-Allow-Origin": "*"
+            }
+        };
+        return post(uploadURL, formData, config)
+            .then(function (response) {
+                console.log(response);
+            })
+            .then(function (error) {
+                console.log(error);
+            });
+    }
+
     toggleModal = (openModal) => {
         let currentState = this.state[openModal];
         this.setState({ [openModal]: !currentState });
@@ -271,6 +295,13 @@ export class UserManagementContainer extends React.Component {
                             onClick={() => { this.toggleModal("openSearchModal") }}
                         >
                             <Icon name='search' />{'Search'}
+                        </Button>
+                        <Button
+                            color="gray"
+                            title={'REST API Post Sample'}
+                            onClick={() => { this.restAPIPost() }}
+                        >
+                            <Icon name='share' />{'Post'}
                         </Button>
                     </Form>
                     <br />
