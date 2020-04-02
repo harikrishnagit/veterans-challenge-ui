@@ -17,7 +17,17 @@
   background: #FFFFFF;
 }
 
-img.tabMenuItem {
-  height: 50%;
-  width: 50%;
+img.timeline.tab.image {
+  height: 32px;
+  width: 38px;
+}
+
+img.advocate.tab.image {
+  height: 32px;
+  width: 32px;
+}
+
+img.job-posted.tab.image {
+  height: 40px;
+  width: 32px;
 }
