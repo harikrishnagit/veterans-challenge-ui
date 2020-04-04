@@ -3,7 +3,6 @@ import {
   Link
 } from "react-router-dom";
 import { Card, Button, Image, Icon,Label } from 'semantic-ui-react';
-import OIPTable from '../tables/OIPTable'
 import _ from 'lodash';
 
 export class JobCard extends React.Component {

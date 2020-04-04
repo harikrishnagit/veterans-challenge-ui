@@ -5,7 +5,7 @@
 }
 
 #jobPosted {
-  width: 80%;
+  width: 70%;
   border: none;
   background: #F9FAFC 0% 0% no-repeat padding-box;
   margin: auto;
@@ -46,4 +46,18 @@
 #jobCardApplicants {
   background: none;
   color: #1675D5;
+}
+
+.post-new-job-import button {
+  width: 80%;
+}
+
+.post-new-job .ui.form .field>label {
+  margin-bottom: 10px;
+  margin-left: 3px;
+}
+
+.form-content-heading {
+  font-size: 20px;
+  font-weight: bold;
 }

@@ -4,8 +4,12 @@ import ReactDOM from "react-dom";
 import {
   Link
 } from "react-router-dom";
-import {Container, Button, Form, Segment, Dimmer, Loader, Grid} from 'semantic-ui-react'
+import {Container, Button, Form, Segment, Dimmer, Loader, Grid, Modal, Header, Image,
+Divider} from 'semantic-ui-react'
+import CommonModal from '../../common/modal/CommonModal'
+import { properties } from '../../common/properties.js';
 import "./JobPosted.css";
+import PostNewJob from "./PostNewJob"
 import axios from 'axios';
 import _ from 'lodash';
 import JobCard from "../../common/cards/JobCard"
@@ -15,19 +19,78 @@ export class JobPosted extends React.Component {
         this.state = {
           loader:false,
           itemsPerRow:3,
+          openPostNewJobModal: false,
+          openNewJobEntryFormModal: false,
+          successToastVisible:false,
           jobsPosted:[],
-          data:[{"postNewJob":true}, {"name":"srikanth","employerImage":"https://react.semantic-ui.com/images/avatar/large/steve.jpg"},{"name":"srikanth",},{"name":"srikanth",},
-                {"name":"srikanth",},{"name":"srikanth",},{"name":"srikanth",},
-                {"name":"srikanth",},{"name":"srikanth",},{"name":"srikanth"},{"name":"srikanth"}]
         };
     }
     componentDidMount() {
         this.fetchJobs();
     }
 
+    togglePostNewJobModal = () => {
+        this.setState({
+            openPostNewJobModal: !this.state.openPostNewJobModal
+        });
+    }
+
+    toggleNewJobEntryFormModal = () => {
+        this.setState({
+            openNewJobEntryFormModal: !this.state.openNewJobEntryFormModal
+        });
+    }
+
+    renderPostNewJobModal = () => {
+      return (  <CommonModal
+            open={this.state.openPostNewJobModal}
+            title="Create a Job Posting"
+            size="small"
+            cancelAction={this.togglePostNewJobModal}
+            confirmAction={() => {
+                this.togglePostNewJobModal()
+                this.setState({ successToastVisible: true })
+            }}
+        >
+            <Container style={{margin:"auto", padding:"20px"}}>
+              <Form style={{ padding: '24px' }}>
+                  <Container style={{textAlign:"center",fontSize:"18px", color: "#1D272D"}} ><b>Import or Create a Job Posting</b></Container>
+                  <Container style={{textAlign:"center",fontSize:"14px", color: "#1D272D", marginTop:"25px"}} >Import job posting from existing websites</Container>
+                  <Container className="post-new-job-import"  style={{textAlign:"center"}}>
+                    <Button  style={{backgroundColor: '#0077B5', marginTop:'20px', color:"#FFF"}}>Import from Linkedin</Button>
+                    <Button  style={{backgroundColor: '#DD7F00', marginTop:'20px', color:"#FFF"}}>Import from Indeed</Button>
+                    <Button  style={{backgroundColor: '#3B00D9', marginTop:'20px', color:"#FFF"}}>Import from Monster</Button>
+                    <Divider style={{marginTop:'20px'}}horizontal>OR</Divider>
+                    <Button onClick={()=> {
+                      this.togglePostNewJobModal();
+                      this.toggleNewJobEntryFormModal();
+                    }} style={{backgroundColor: '#28516A ', marginTop:'20px', color:"#FFF"}}>Post New Job</Button>
+                  </Container>
+              </Form>
+            </Container>
+        </CommonModal>)
+    }
+
+    renderNewJobEntryFormModal = () => {
+      return (  <CommonModal
+            open={this.state.openNewJobEntryFormModal}
+            title="Create a Job Posting"
+            size="small"
+            cancelAction={this.toggleNewJobEntryFormModal}
+            confirmAction={() => {
+                this.toggleNewJobEntryFormModal()
+                this.setState({ successToastVisible: true })
+            }}
+        >
+            <Container style={{margin:"auto", padding:"20px"}}>
+              <PostNewJob />
+            </Container>
+        </CommonModal>)
+    }
+
     fetchJobs = () => {
       this.setState({loader:true})
-      let fetchJobsEndpoint = 'http://localhost:8092/getJobsPosted/123/testsessionid';
+      let fetchJobsEndpoint = properties.vcEmployerServiceEndpoint + 'getJobsPosted/123/testsessionid';
       axios.get(fetchJobsEndpoint)
         .then(function (response) {
             const jobsPosted = response.data;
@@ -61,7 +124,7 @@ export class JobPosted extends React.Component {
             <Grid.Row key={index}>
               {row.map(jobData => {
                     if (_.has(jobData, "postNewJob")) {
-                      return (<Grid.Column><Segment id="postNewJob"><Button className="tertiary"  basic color='blue'><div>+</div><div>Post a job</div></Button></Segment></Grid.Column>)
+                      return (<Grid.Column><Segment id="postNewJob"><Button onClick={() => {this.togglePostNewJobModal()}} className="tertiary"  basic color='blue'><div>+</div><div>Post a job</div></Button></Segment></Grid.Column>)
                     } else {
                       return (<Grid.Column><JobCard jobData={jobData}/></Grid.Column>)
                     }
@@ -85,6 +148,8 @@ export class JobPosted extends React.Component {
                       {this.buildGrid()}
                      </Grid>
                    ) : ''}
+                   {this.renderPostNewJobModal()}
+                   {this.renderNewJobEntryFormModal()}
                 </div>
               </Segment>
       );
