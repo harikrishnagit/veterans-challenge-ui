@@ -6,6 +6,7 @@ import {
 import ReactDOM from "react-dom";
 import { Tab, Container, Button, Form, Segment, Dimmer, Loader} from 'semantic-ui-react'
 import "./Signup.css";
+import { properties } from '../common/properties.js';
 import axios from 'axios';
 export class EmployerSignupVerification extends React.Component {
     constructor(props) {
@@ -23,7 +24,7 @@ export class EmployerSignupVerification extends React.Component {
     }
     showSamBusinesses () {
       this.setState({loader:true})
-      let samServiceUrl = 'http://127.0.0.1:8092/searchSam/testsessionid?businessName=';
+      let samServiceUrl = properties.vcEmployerServiceEndpoint + 'searchSam/testsessionid?businessName=';
       samServiceUrl = samServiceUrl + this.state.businessName;
       axios.get(samServiceUrl)
         .then(function (response) {
